@@ -29,6 +29,7 @@ If the user selects 9, end program
 using namespace std;
 
 // Declare and initialize variables
+string userInput;
 char menuSelection = '1';
 int i = 0;
 int j = 0;
@@ -52,8 +53,8 @@ int main(){
     cout << "Enter a string:  ";
     cin.getline(userString, MAXCHARS, '\n'); // Store the user input as a C++ string
 
-// Display a menu to prompt a user how they would like their string to be manipulated and store their input
-
+while (true) {  // Continuously display the menu and process selections
+    // Display the menu to the user
     cout << "USE THIS MENU TO MANIPULATE YOUR STRING" << endl
          << "---------------------------------------" << endl
          << "1) Inverse String" << endl
@@ -66,47 +67,30 @@ int main(){
          << "8) Print the String" << endl
          << "9) Quit" << endl << endl
          << "Enter your choice: " << endl;
-        
-    cin >> menuSelection;
-    cin.ignore();
 
+    cin >> userInput;  
+    cin.ignore();  
 
-    // Validate user's response
-    while (menuSelection != '1' &&
-           menuSelection != '2' &&
-           menuSelection != '3' &&
-           menuSelection != '4' &&
-           menuSelection != '5' &&
-           menuSelection != '6' &&
-           menuSelection != '7' &&
-           menuSelection != '8' &&
-           menuSelection != '9') {
-        
-        cout << "Invalid selection. Please trying again" << endl;
-        
-        cout << "USE THIS MENU TO MANIPULATE YOUR STRING" << endl
-             << "---------------------------------------" << endl
-             << "1) Inverse String" << endl
-             << "2) Reverse String" << endl
-             << "3) To Uppercase" << endl
-             << "4) Jumble string" << endl
-             << "5) Count Number Words" << endl
-             << "6) Count Consonants" << endl
-             << "7) Enter a Different String" << endl
-             << "8) Print the String" << endl
-             << "9) Quit" << endl << endl
-             << "Enter your choice: " << endl;
-         
-        cin >> menuSelection;
-        cin.ignore();
+    // Validate the input is a single character and a valid menu option
+    if (userInput.length() != 1 ||
+        userInput[0] < '1' || 
+        userInput[0] > '9') {
 
+        cout << "Invalid selection. Please try again." << endl << endl;
+        continue;  // prompt the user again
     }
 
-    while (menuSelection != '9') {
+    menuSelection = userInput[0];  // store valid menu selection
 
+    // Stop loop (& program) if the user selects 9
+    if (menuSelection == '9') {
+        break;  //  end the program
+    }
+
+    // Process the user's selection with a switch statement
     switch (menuSelection) {
         case '1':
-            // inverse string 
+            // Inverse string
             i = 0;
             while (userString[i] != '\0') {
                 if (isupper(userString[i])) {
@@ -116,61 +100,48 @@ int main(){
                 }
                 i++;
             }
+            cout << "String inverse done." << endl;
             break;
         case '2':
-           // reverse string
+            // Reverse string
             strreverse(userString);
-           break;
+            cout << "String reverse done." << endl;
+            break;
         case '3':
-            // convert to uppercase 
-           while (userString[j] != '\0') {
-                if (islower(userString[j])) { // check if lower
-                    userString[j] = toupper(userString[j]); // change to upper
-                } 
+            // Convert to uppercase
+            while (userString[j] != '\0') {
+                if (islower(userString[j])) {
+                    userString[j] = toupper(userString[j]);
+                }
                 j++;
-            } 
+            }
+            cout << "String is now uppercase." << endl;
             break;
         case '4':
-            // jumble string
+            // Jumble string
             jumbleString(userString);
             break;
         case '5':
-            // count number words
+            // Count number words
             countWords(userString);
             break;
         case '6':
-            // count consonants
+            // Count consonants
             countConsonants(userString);
             break;
         case '7':
-            // enter a different string
-            cout << "Enter a new string:  "; // Prompt the user to enter a word, a sentence, or a string of numbers
-            cin.ignore(); // clear all previous inputs
-            cin.getline(userString, MAXCHARS, '\n'); // Store the new string
+            // Enter a different string
+            cout << "Enter a new string: ";
+            cin.getline(userString, MAXCHARS, '\n');  // Store the new string
+            cout << userString << endl; //debug
             break;
+            
         case '8':
-            // print string
+            // Print string
             cout << endl << userString << endl << endl;
             break;
     }
-    
-        cout << "USE THIS MENU TO MANIPULATE YOUR STRING" << endl
-             << "---------------------------------------" << endl
-             << "1) Inverse String" << endl
-             << "2) Reverse String" << endl
-             << "3) To Uppercase" << endl
-             << "4) Jumble string" << endl
-             << "5) Count Number Words" << endl
-             << "6) Count Consonants" << endl
-             << "7) Enter a Different String" << endl
-             << "8) Print the String" << endl
-             << "9) Quit" << endl << endl
-             << "Enter your choice: " << endl;
-
-        cin >> menuSelection;
-        cin.ignore();
-
-} 
+}
 
     return 0;
 }
@@ -215,7 +186,7 @@ void jumbleString(char string[]) {
         jumbledString[ranNum] = temp; // fill random position with old [i] position
     }
 
-    cout << jumbledString << endl; // display jumbled string
+    cout << jumbledString << endl << endl; // display jumbled string
 }
 
 // Function to count words
@@ -236,7 +207,7 @@ void countWords(char string[]) {
         }
     }
     // display number of words
-    cout << endl << "The string " << endl << string << endl << " has " << count << " word(s)." << endl;
+    cout << endl << "The string " << endl << string << endl << " has " << count << " word(s)." << endl << endl;
 }
 
 // Function to check for vowels
@@ -273,5 +244,5 @@ void countConsonants(char string[]) {
         }
     }
     // display number of consonants
-    cout << endl << "The string " << endl << string << endl << " has " << count << " consonant(s)." << endl;
+    cout << endl << "The string " << endl << string << endl << " has " << count << " consonant(s)." << endl << endl;
 }
