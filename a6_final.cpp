@@ -28,7 +28,7 @@ If the user selects 9, end program
 
 using namespace std;
 
-// Declare and initialize variables
+// Declare and initialize global variables
 string userInput;
 char menuSelection = '1';
 int i = 0;
@@ -72,15 +72,15 @@ while (true) {  // Continuously display the menu and process selections
     cin.ignore();  
 
     // Validate the input is a single character and a valid menu option
-    if (userInput.length() != 1 ||
-        userInput[0] < '1' || 
-        userInput[0] > '9') {
+    if (userInput.length() != 1 || // prevent multiple characters
+        userInput[0] < '1' ||  
+        userInput[0] > '9') { // keep char in range of valid menu options
 
         cout << "Invalid selection. Please try again." << endl << endl;
         continue;  // prompt the user again
     }
 
-    menuSelection = userInput[0];  // store valid menu selection
+    menuSelection = userInput[0];  // store validated menu selection
 
     // Stop loop (& program) if the user selects 9
     if (menuSelection == '9') {
@@ -100,12 +100,12 @@ while (true) {  // Continuously display the menu and process selections
                 }
                 i++;
             }
-            cout << "String inverse done." << endl;
+            cout << endl << "String inverse done." << endl;
             break;
         case '2':
             // Reverse string
             strreverse(userString);
-            cout << "String reverse done." << endl;
+            cout << endl << "String reverse done." << endl;
             break;
         case '3':
             // Convert to uppercase
@@ -115,7 +115,7 @@ while (true) {  // Continuously display the menu and process selections
                 }
                 j++;
             }
-            cout << "String is now uppercase." << endl;
+            cout << endl << "String is now uppercase." << endl;
             break;
         case '4':
             // Jumble string
@@ -131,9 +131,8 @@ while (true) {  // Continuously display the menu and process selections
             break;
         case '7':
             // Enter a different string
-            cout << "Enter a new string: ";
+            cout << endl << "Enter a new string: ";
             cin.getline(userString, MAXCHARS, '\n');  // Store the new string
-            cout << userString << endl; //debug
             break;
             
         case '8':
@@ -164,10 +163,10 @@ void strcopy(char destString[], char sourceString[]) {
 void strreverse(char stringArr[]) {   
     char tempString[MAXCHARS];
     int stringLen = strlen(stringArr);
-    int j = stringLen - 1; // starting position of j
+    int j = stringLen - 1;    // starting position of j is at end of temp string
     for (int i = 0; i < stringLen; i++, j--) {
         tempString[j] = stringArr[i];
-    } tempString[stringLen] = '\0'; // terminate with null
+    } tempString[stringLen] = '\0';    // terminate with null
     strcopy(userString, tempString);
 }
 
@@ -183,7 +182,7 @@ void jumbleString(char string[]) {
         temp = jumbledString[i]; // copy [i] position to a temp char
         ranNum = rand() % length;  // generate a random number for new [i] position
         jumbledString[i] = jumbledString[ranNum]; // move randomized position char to [i]
-        jumbledString[ranNum] = temp; // fill random position with old [i] position
+        jumbledString[ranNum] = temp; // fill randomized position with original [i]
     }
 
     cout << jumbledString << endl << endl; // display jumbled string
@@ -191,8 +190,8 @@ void jumbleString(char string[]) {
 
 // Function to count words
 void countWords(char string[]) {
-    int count = 0; // counts words
-    bool word = false; // are we in a word
+    int count = 0; //  word counter
+    bool word = false; // initilize not in a word
     int length = strlen(string); // stop before '\0'
 
     for (int i = 0; i < length; i++) {
@@ -237,9 +236,9 @@ void countConsonants(char string[]) {
     int length = strlen(string);
 
     for (int i = 0; i < length; i++) {
-        if (isalpha(string[i])) {
-            if (!isAVowel(string[i])) {
-                count++;
+        if (isalpha(string[i])) {  //check if letter
+            if (!isAVowel(string[i])) {  // check if not vowel
+                count++;  //add to counter
             }
         }
     }
